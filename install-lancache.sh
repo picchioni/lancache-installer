@@ -41,7 +41,7 @@ apt -y upgrade
 
 # Install required packages
 echo "Installing required updates..."
-apt -y install nginx sniproxy unbound netdata
+apt -y install nginx sniproxy unbound netdata jq
 
 # Arrays used
 # Services used and set ip for and created the lancache folders for
