@@ -1,0 +1,3 @@
+[submodule "cache-domains"]
+	path = cache-domains
+	url = https://github.com/uklans/cache-domains
