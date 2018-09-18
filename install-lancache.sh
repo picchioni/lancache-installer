@@ -20,11 +20,11 @@ lc_max_size="500000m"
 lc_dl_dir="/usr/local/lancache"
 lc_base_folder="$lc_dl_dir/lancache-installer"
 lc_tmp_ip="/tmp/services_ips.txt"
-lc_tmp_unbound="$lc_base_folder/etc/unbound/unbound.conf"
+#lc_tmp_unbound="$lc_base_folder/etc/unbound/unbound.conf"
 lc_tmp_hosts="$lc_base_folder/etc/hosts"
 lc_tmp_yaml="$lc_base_folder/etc/netplan/01-netcfg.yaml"
 lc_nginx_loc="/etc/nginx"
-lc_unbound_loc="/etc/unbound"
+#lc_unbound_loc="/etc/unbound"
 lc_netdata="/etc/netdata/netdata.conf"
 lc_network=$(hostname -I | awk '{ print $1 }')
 lc_gateway=$(route -n | grep 'UG[ \t]' | awk '{print $2}')
@@ -45,7 +45,7 @@ apt -y upgrade
 
 # Install required packages
 echo "Installing required updates..."
-apt -y install nginx sniproxy unbound netdata
+apt -y install nginx sniproxy netdata
 
 # Arrays used
 # Services used and set ip for and created the lancache folders for
@@ -103,7 +103,7 @@ for service in ${lc_services[@]}; do
 	echo $lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_ip_p4/$lc_ip_sn >> "$lc_tmp_ip"
 
 	# This Changes the Unbound File with the correct IP Adresses
-	sed -i 's|lc-host-'$service'|'$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_ip_p4'|g' $lc_tmp_unbound
+	#sed -i 's|lc-host-'$service'|'$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_ip_p4'|g' $lc_tmp_unbound
 
 	# This Corrects the Host File For The Gameservices
 	sed -i 's|lc-host-'$service'|'$lc_ip_p1.$lc_ip_p2.$lc_ip_p3.$lc_ip_p4'|g' $lc_tmp_hosts
@@ -113,7 +113,7 @@ for service in ${lc_services[@]}; do
 done
 
 # This Changes the Unbound File with the correct IP Adresses for lc-host-ip
-sed -i 's|lc-host-ip|'$lc_network'|g' $lc_tmp_unbound
+#sed -i 's|lc-host-ip|'$lc_network'|g' $lc_tmp_unbound
 
 # This Corrects the Host File For The Netplan with gateway
 sed -i 's|lc-host-gateway|'$lc_gateway'|g' $lc_tmp_yaml
@@ -183,8 +183,8 @@ sed -i "s|lc-dns1|$lc_dns1|g" $lc_base_folder/etc/nginx/lancache/resolver
 sed -i "s|lc-dns2|$lc_dns2|g" $lc_base_folder/etc/nginx/lancache/resolver
 sed -i "s|lc-dns1|$lc_dns1|g" $lc_tmp_yaml
 sed -i "s|lc-dns2|$lc_dns2|g" $lc_tmp_yaml
-sed -i "s|lc-dns1|$lc_dns1|g" $lc_tmp_unbound
-sed -i "s|lc-dns2|$lc_dns2|g" $lc_tmp_unbound
+#sed -i "s|lc-dns1|$lc_dns1|g" $lc_tmp_unbound
+#sed -i "s|lc-dns2|$lc_dns2|g" $lc_tmp_unbound
 sed -i "s|lc-dns1|$lc_dns1|g" $lc_base_folder/etc/sniproxy.conf
 
 # Change the Proxy Bind in Lancache Configs
@@ -207,15 +207,15 @@ mv /etc/sniproxy.conf /etc/sniproxy.conf.$TIMESTAMP.bak
 cp $lc_base_folder/etc/sniproxy.conf /etc/sniproxy.conf
 
 # Moving unbound configs
-echo "Configuring unbound..."
-mv /etc/unbound/unbound.conf /etc/unbound/unbound.conf.$TIMESTAMP.bak
-cp $lc_base_folder/etc/unbound/unbound.conf /etc/unbound/unbound.conf
+#echo "Configuring unbound..."
+#mv /etc/unbound/unbound.conf /etc/unbound/unbound.conf.$TIMESTAMP.bak
+#cp $lc_base_folder/etc/unbound/unbound.conf /etc/unbound/unbound.conf
 
 # Configuring startup services
 echo "Configuring services to run on boot..."
 systemctl enable nginx
 systemctl enable sniproxy
-systemctl enable unbound
+#systemctl enable unbound
 systemctl enable netdata
 
 # Move hosts and network interface values into place.
