@@ -16,7 +16,7 @@ Improve download speeds and reduce strain on your Internet connection at LAN par
  
  `cd lancache-installer`
  
-# Run scripts with sudo
+# Run installer with sudo
 
 ### Run 
  `sudo ./install-lancache.sh`
@@ -28,4 +28,6 @@ Improve download speeds and reduce strain on your Internet connection at LAN par
  
 ##########################################################################
 
-
+# Change IP Addressing for a new network
+### Run
+`sudo ./changeip.sh`
